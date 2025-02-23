@@ -1,14 +1,18 @@
 # docker-compose.yml
 services:
-  web:
+  ltsm:
     build: .
     command: uvicorn app.main:app --host 0.0.0.0 --reload
     volumes:
       - ./app:/code/app
+      - ./datasets:/app/datasets
     ports:
-      - "8000:8000"
+      - "${LTSM_PORT}:${LTSM_PORT}"
     environment:
-      - DATABASE_URL=postgresql://user:password@db:5432/fastapi_db
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORTS}/${POSTGRES_DB}
+      - BROKER_API_ALPHA_VANTAGE=${BROKER_API_ALPHA_VANTAGE}
+      - BROKER_API_FINANCIAL_MODELING_PREP=${BROKER_API_FINANCIAL_MODELING_PREP}
+      - BROKER_API_YAHOO_FINANCE=${BROKER_API_YAHOO_FINANCE}
     depends_on:
       - db
 
@@ -17,11 +21,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=fastapi_db
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORTS}:${POSTGRES_PORTS}"
 
 volumes:
   postgres_data:

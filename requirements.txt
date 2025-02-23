@@ -5,3 +5,9 @@ sqlalchemy>=1.4.0,<1.5.0
 psycopg2-binary>=2.9.1,<3.0.0
 pydantic>=1.8.0,<2.0.0
 alembic>=1.7.4,<1.8.0
+sqlmodel
+torch
+numpy
+alpha-vantage
+matplotlib
+python-dotenv
