@@ -1,4 +1,6 @@
-from sqlmodel import SQLModel, Field, Relationship
+from __future__ import annotations
+
+from sqlmodel import SQLModel, Field
 from typing import Optional
 
 class Config(SQLModel, table=True):

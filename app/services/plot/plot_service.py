@@ -1,13 +1,16 @@
 from sqlmodel import Session, select
-from app.models import TrainingRun, Prediction, Stock, DataPoint, Dataset
-from app.config.settings import CONFIG
 from matplotlib.pyplot import figure
 import matplotlib.pyplot as plt
 import numpy as np
 import io
 import base64
 from datetime import timedelta
-from app.utils.normalizer import Normalizer
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from app.utils.normalizer import Normalizer
+    from app.models import TrainingRun, Prediction, Stock, DataPoint, Dataset
+    from app.config.settings import CONFIG
 
 class ServePlotsService:
     @staticmethod

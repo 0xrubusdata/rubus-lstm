@@ -1,6 +1,6 @@
 from sqlmodel import Session, select
 from app.models import Config
-from app.config.settings import CONFIG, ALPHA_VANTAGE_KEY
+from app.config.defaults import CONFIG, ALPHA_VANTAGE_KEY
 
 class ConfigService:
     @staticmethod
@@ -43,10 +43,13 @@ class ConfigService:
 
     @staticmethod
     def get_config(session: Session) -> dict:
-        # Fetch all config entries
-        configs = session.exec(select(Config)).all()
-        config_dict = {c.key: c.value for c in configs}
-        
+        try:
+            # Fetch all config entries
+            configs = session.exec(select(Config)).all()
+            config_dict = {c.key: c.value for c in configs}
+        except ValueError:
+            config_dict = {"alpha_vantage_key": ALPHA_VANTAGE_KEY, "xticks_interval":"90"}
+
         # Parse types as needed
         return {
             "alpha_vantage_key": config_dict.get("alpha_vantage_key", ALPHA_VANTAGE_KEY),

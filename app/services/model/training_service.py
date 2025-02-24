@@ -1,11 +1,12 @@
 from sqlmodel import Session
-from app.models import TrainingRun, ModelConfig
-from app.services.model.definitionService import definition_service  # Placeholder
-from app.config.settings import CONFIG
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
+
+from app.models import TrainingRun, ModelConfig, Dataset
+from app.services.model.definition_service import definition_service  # Placeholder
+from app.config.settings import CONFIG
 
 class TrainingService:
     @staticmethod

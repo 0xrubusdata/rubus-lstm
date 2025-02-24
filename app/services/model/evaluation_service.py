@@ -1,11 +1,12 @@
 from sqlmodel import Session, select
-from app.models import TrainingRun, Prediction, Dataset, ModelConfig
-from app.services.model.definitionService import definition_service
-from app.config.settings import CONFIG
 from app.utils.dataset import TimeSeriesDataset
 import torch
 from torch.utils.data import DataLoader
 import numpy as np
+
+from app.models import TrainingRun, Prediction, Dataset, ModelConfig, DataPoint
+from app.services.model.definition_service import definition_service
+from app.config.settings import CONFIG
 
 class EvaluationService:
     @staticmethod
@@ -40,12 +41,12 @@ class EvaluationService:
             .where(Dataset.id == dataset.id)
         ).all()
         raw_prices = np.array([dp.adjusted_close for dp in data_points])
-        from app.services.data.normalizationService import normalization_service
+        from app.services.data.normalization_service import normalization_service
         norm_result = normalization_service.normalize_data(data_points, session)
         scaler = norm_result["scaler"]
         normalized_data = norm_result["normalized_values"]
 
-        from app.services.data.datasetprepService import datasetprep_service
+        from app.services.data.datasetprep_service import datasetprep_service
         data_x, _ = datasetprep_service.prepare_data_x(normalized_data, dataset.window_size)
         data_y = datasetprep_service.prepare_data_y(normalized_data, dataset.window_size)
         split_index = int(data_y.shape[0] * dataset.train_split_size)

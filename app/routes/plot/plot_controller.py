@@ -1,7 +1,8 @@
-from app.main import get_session
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from sqlmodel import Session
+
+from app.config.database import get_session
 from app.routes.plot.Dto.inPlotDto import PlotPricesIn
 from app.routes.plot.Dto.outPlotDto import PlotPricesOut
 from app.services.plot import serve_plots_service

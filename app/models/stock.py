@@ -1,4 +1,5 @@
-from app.repository import DataPoint, Dataset, ModelConfig
+from __future__ import annotations
+
 from sqlmodel import SQLModel, Field, Relationship
 from typing import Optional, List
 

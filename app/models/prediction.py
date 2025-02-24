@@ -1,14 +1,14 @@
-from app.models import TrainingRun
+from __future__ import annotations
+
 from sqlmodel import SQLModel, Field, Relationship
 from typing import Optional
-from datetime import date
+from datetime import datetime
 
 class Prediction(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     training_run_id: int = Field(foreign_key="trainingrun.id", index=True)
-    date: date = Field(index=True)             # Date being predicted
-    actual_price: Optional[float] = None       # Known price (null if future)
-    predicted_price: float                     # Model’s prediction
+    date: datetime = Field(index=True)
+    actual_price: Optional[float] = None
+    predicted_price: float
 
-    # Relationship
     training_run: "TrainingRun" = Relationship(back_populates="predictions")

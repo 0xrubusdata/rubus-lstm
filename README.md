@@ -1,13 +1,13 @@
 # Rubus LSTM
 
-# ![0xRubusLtsm](./public/agents/0xRubusLtsm.png)
+# ![0xRubusLstm](./public/agents/0xRubusLstm.png)
 
 # LSTM model API
 
 This is a FastAPI-based API for stock price prediction using an LSTM model, integrated with Alpha Vantage for data acquisition and PostgreSQL for persistence. It supports data preparation, model training, evaluation, prediction, and visualization.
 
 ## Features
-- **Data Acquisition**: Fetch stock data from Alpha Vantage.
+- **Data Acquisition**: Fetch data from multiple Alpha Vantage APIs (timeseries, cryptocurrencies, foreignexchange, and more).
 - **Data Preparation**: Normalize data and generate train/validation datasets.
 - **Model Management**: Define, train, and evaluate LSTM models.
 - **Prediction**: Forecast the next day's stock price.
@@ -26,7 +26,7 @@ This is a FastAPI-based API for stock price prediction using an LSTM model, inte
 1. Clone the repository:
    ```bash
    git clone <your-repo-url>
-   cd rubus-ltsm
+   cd rubus-lstm
    ```
 2. Install dependencies:
    ```bash
@@ -81,7 +81,7 @@ See detailed endpoint documentation in the Swagger UI or the openapi.json file a
 
 ## Project Structure
    ```bash
-   rubus-ltsm/
+   rubus-lstm/
     ├── app/              # FastAPI application
     │   ├── config/       # Configuration settings
     │   ├── main.py       # App entry point
@@ -102,7 +102,7 @@ MIT License - Free to use and contribute!
 ## 📝 **Author**
 - 👤 0xRubusData 
 - 📧 Contact: 0xRubusData@gmail.com
-- 🌍 GitHub: https://github.com/0xrubusdata/rubus-ltsm
+- 🌍 GitHub: https://github.com/0xrubusdata/rubus-lstm
 
 ## 🌐 Connect with Us
 - **Twitter (X)**: [0xRubusData](https://x.com/Data0x88850)
@@ -112,4 +112,4 @@ MIT License - Free to use and contribute!
 Contributions are welcome! Open an issue or submit a PR.
 
 ---
-🚀 **Stay tuned for updates as Rubus-Ltsm evolves!**
+🚀 **Stay tuned for updates as Rubus-Lstm evolves!**

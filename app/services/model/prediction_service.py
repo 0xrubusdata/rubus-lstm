@@ -1,10 +1,11 @@
 from sqlmodel import Session, select
-from app.models import TrainingRun, Prediction, ModelConfig, DataPoint
-from app.services.model.definitionService import definition_service
-from app.config.settings import CONFIG
 import torch
 import numpy as np
 from datetime import timedelta
+
+from app.models import TrainingRun, Prediction, ModelConfig, DataPoint
+from app.services.model.definition_service import definition_service
+from app.config.settings import CONFIG
 
 class PredictionService:
     @staticmethod
@@ -41,13 +42,13 @@ class PredictionService:
 
         # Normalize recent data
         raw_prices = np.array([dp.adjusted_close for dp in data_points[::-1]])  # Reverse to chronological order
-        from app.services.data.normalizationService import normalization_service
+        from app.services.data.normalization_service import normalization_service
         norm_result = normalization_service.normalize_data(data_points, session)  # Simplified; ideally use same scaler
         scaler = norm_result["scaler"]
         normalized_data = norm_result["normalized_values"]
 
         # Prepare unseen data (last window)
-        from app.services.data.datasetprepService import datasetprep_service
+        from app.services.data.datasetprep_service import datasetprep_service
         data_x, data_x_unseen = datasetprep_service.prepare_data_x(normalized_data, CONFIG["data"]["window_size"])
         x_unseen = torch.tensor(data_x_unseen).float().to(CONFIG["training"]["device"]).unsqueeze(0).unsqueeze(2)
 

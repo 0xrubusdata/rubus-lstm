@@ -1,23 +1,8 @@
 # docker-compose.yml
 services:
-  ltsm:
-    build: .
-    command: uvicorn app.main:app --host 0.0.0.0 --reload
-    volumes:
-      - ./app:/code/app
-      - ./datasets:/app/datasets
-    ports:
-      - "${LTSM_PORT}:${LTSM_PORT}"
-    environment:
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORTS}/${POSTGRES_DB}
-      - BROKER_API_ALPHA_VANTAGE=${BROKER_API_ALPHA_VANTAGE}
-      - BROKER_API_FINANCIAL_MODELING_PREP=${BROKER_API_FINANCIAL_MODELING_PREP}
-      - BROKER_API_YAHOO_FINANCE=${BROKER_API_YAHOO_FINANCE}
-    depends_on:
-      - db
-
-  db:
+  lstm-postgres:
     image: postgres:15
+    container_name: lstm-postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
@@ -25,7 +10,41 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
     ports:
-      - "${POSTGRES_PORTS}:${POSTGRES_PORTS}"
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    networks:
+      - lstm-network
+
+  lstm-adminer:
+    image: adminer
+    container_name: lstm-adminer
+    restart: always
+    environment:
+      ADMINER_DEFAULT_SERVER: lstm-postgres
+    ports:
+      - "${ADMIRER_PORT}:${ADMIRER_PORT}"    
+    networks:
+      - lstm-network      
+
+  lstm-app:
+    container_name: lstm-app
+    build: .
+    command: uvicorn app.main:app --host 0.0.0.0 --reload
+    volumes:
+      - ./app:/code/app
+      - ./datasets:/app/datasets
+    ports:
+      - "${LSTM_PORT}:${LSTM_PORT}"
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:${POSTGRES_PORT}/${POSTGRES_DB}
+      - ALPHA_VANTAGE_KEY=${ALPHA_VANTAGE_KEY}
+    depends_on:
+      - lstm-postgres
+    networks:
+      - lstm-network  
 
 volumes:
   postgres_data:
+
+networks:
+  lstm-network:
+    driver: bridge

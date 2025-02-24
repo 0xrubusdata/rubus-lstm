@@ -1,4 +1,5 @@
-from app.models import NormalizedData, Stock, TrainingRun
+from __future__ import annotations
+
 from sqlmodel import SQLModel, Field, Relationship
 from typing import Optional, List
 from datetime import datetime
@@ -9,12 +10,11 @@ class Dataset(SQLModel, table=True):
     window_size: int = Field(ge=1)
     train_split_size: float = Field(gt=0.0, lt=1.0)
     created_at: datetime = Field(default_factory=datetime.utcnow)
-    scaler_mu: Optional[float] = None  # Mean for normalization
-    scaler_sd: Optional[float] = None  # Standard deviation for normalization
-    train_dataset_path: Optional[str] = None  # Path to serialized train dataset
-    val_dataset_path: Optional[str] = None    # Path to serialized val dataset
+    scaler_mu: Optional[float] = None
+    scaler_sd: Optional[float] = None
+    train_dataset_path: Optional[str] = None
+    val_dataset_path: Optional[str] = None
 
-    # Relationships
     stock: "Stock" = Relationship(back_populates="datasets")
     normalized_data: List["NormalizedData"] = Relationship(back_populates="dataset")
     training_runs: List["TrainingRun"] = Relationship(back_populates="dataset")

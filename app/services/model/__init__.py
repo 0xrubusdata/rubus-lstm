@@ -1,7 +1,7 @@
-from .definitionService import definition_service
-from .trainingService import training_service
-from .evaluationService import evaluation_service
-from .predictionService import prediction_service
+from .definition_service import definition_service
+from .training_service import training_service
+from .evaluation_service import evaluation_service
+from .prediction_service import prediction_service
 
 __all__ = [
     "definition_service",

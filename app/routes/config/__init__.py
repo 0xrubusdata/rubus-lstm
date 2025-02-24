@@ -1,3 +1,6 @@
-from .setConfigAction import router
+from fastapi import APIRouter
+from app.routes.config.config_controller import router as config_router
 
-__all__ = ["router"]
+router = APIRouter(prefix="/api")
+
+router.include_router(config_router)
